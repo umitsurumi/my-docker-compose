@@ -1,0 +1,17 @@
+version: '3' 
+
+services:
+  bitwarden:
+    image: vaultwarden/server:latest
+    container_name: bitwarden
+    restart: unless-stopped
+    ports:
+      - "20080:80"
+    environment:
+      - TZ=Asia/Shanghai
+      - SIGNUPS_ALLOWED=false
+      - INVITATIONS_ALLOWED=false
+      - LOG_FILE=/data/bitwarden.log
+    volumes:
+      - /home/nasadmin/docker/bitwarden:/data
+    network_mode: bridge
