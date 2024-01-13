@@ -1,0 +1,22 @@
+version: '3'
+services:
+  tinymediamanager:
+    image: tinymediamanager/tinymediamanager:latest
+    container_name: tinymediamanager
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - TZ=Asia/Shanghai
+      - USER_ID=1001
+      - GROUP_ID=1001
+    volumes:
+      - /mnt/public/library_a/jellyfin_data_a:/media/media_a
+      - /mnt/public/library_b/jellyfin_data_b:/media/media_b
+      - /home/nasadmin/docker/tinymediamanager/data:/data
+    network_mode: bridge
+    extra_hosts:
+      - "api.themoviedb.org:13.224.249.113"
+      - "api.themoviedb.org:13.224.249.107"
+      - "api.themoviedb.org:13.224.249.79"
+      - "api.themoviedb.org:13.224.249.122"
