@@ -1,0 +1,41 @@
+version: '3' 
+
+services:
+  jellyfin:
+    # jellyfin特供镜像
+    image: nyanmisaka/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    user: "1001:1001"
+    group_add:
+      - "106"
+    # 端口映射，http 8096, https 8920
+    ports:
+      - "8096:8096"
+      - "8920:8920" 
+      - "7359:7359"
+    environment:
+      - TZ=Asia/Shanghai
+      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+    # 数据卷挂载
+    volumes:
+      - /home/nasadmin/docker/jellyfin/cache:/cache
+      - /home/nasadmin/docker/jellyfin/config:/config
+      - /home/nasadmin/docker/jellyfin/media:/media
+      - /mnt/public/library_a/jellyfin_data_a:/media_a 
+      - /mnt/public/library_b/jellyfin_data_b:/media_b 
+      - /dev/dri:/dev/dri
+    # 核显驱动映射
+    devices:
+      - /dev/dri:/dev/dri  
+    network_mode: bridge
+    # dns设置
+    dns:
+      - 8.8.8.8
+      - 4.2.2.2
+    # themoviedb host 
+    extra_hosts:
+      - "api.themoviedb.org:13.224.249.113"
+      - "api.themoviedb.org:13.224.249.107"
+      - "api.themoviedb.org:13.224.249.79"
+      - "api.themoviedb.org:13.224.249.122"
